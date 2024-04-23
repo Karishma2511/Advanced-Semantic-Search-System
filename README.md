@@ -221,6 +221,20 @@ algorithms.
 - Requests library is included to manage HTTP interactions effectively.
 - BeautifulSoup is used for parsing HTML, ensuring smooth data extraction from web pages.
 
+**RUN**
+
+To run the code for crawling and then the Flask application, you can follow these steps:
+
+1. Crawl the Page:
+   Run the following command in your terminal to execute the Scrapy spider and crawl the desired page:
+   scrapy crawl arxiv -o arxiv_papers.json
+This command will start the Scrapy spider named 'arxiv' and save the output to a file named 'arxiv_papers.json'.
+
+2. Run the Flask Application:
+   After crawling the page and saving the data, you can run the Flask application to start the web server. 
+   python app.py
+
+
 **BIBLIOGRAPHY**
 
 1. <https://docs.scrapy.org/en/latest/>
