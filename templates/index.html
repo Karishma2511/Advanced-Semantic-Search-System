@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Search System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #search-container {
+            text-align: center;
+        }
+
+        #search-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+
+        #query-input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #submit-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #search-results {
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="search-container">
+        <h1>Welcome to the Semantic Search System!</h1>
+        <p>Please enter your query below:</p>
+        <div id="search-form">
+            <form id="query-form">
+                <input type="text" id="query-input" placeholder="Enter your query here..." required>
+                <button type="submit" id="submit-button">Search</button>
+            </form>
+        </div>
+        <div id="search-results"></div>
+    </div>
+
+    <script>
+        document.getElementById('query-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var query = document.getElementById('query-input').value;
+            fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: query
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var searchResultsDiv = document.getElementById('search-results');
+                    searchResultsDiv.innerHTML = ''; // Clear previous results
+                    var messageParagraph = document.createElement('p');
+                    messageParagraph.textContent = 'Response from server: ' + data.message;
+                    searchResultsDiv.appendChild(messageParagraph);
+                    if (data.query) {
+                        var queryParagraph = document.createElement('p');
+                        queryParagraph.textContent = 'Query: ' + data.query;
+                        searchResultsDiv.appendChild(queryParagraph);
+                    }
+                    if (data.results && data.results.length > 0) {
+                        var resultsList = document.createElement('ul');
+                        data.results.forEach(function(result) {
+                            var resultItem = document.createElement('li');
+                            resultItem.textContent = 'Document ID: ' + result[0] + ', Similarity Score: ' + result[1];
+                            resultsList.appendChild(resultItem);
+                        });
+                        searchResultsDiv.appendChild(resultsList);
+                    } else {
+                        var noResultsParagraph = document.createElement('p');
+                        noResultsParagraph.textContent = 'No results found.';
+                        searchResultsDiv.appendChild(noResultsParagraph);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    var searchResultsDiv = document.getElementById('search-results');
+                    searchResultsDiv.innerHTML = ''; // Clear previous results
+                    var errorParagraph = document.createElement('p');
+                    errorParagraph.textContent = 'Error occurred: ' + error;
+                    searchResultsDiv.appendChild(errorParagraph);
+                });
+        });
+    </script>
+</body>
+
+</html>
