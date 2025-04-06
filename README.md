@@ -1,14 +1,8 @@
-﻿**ILLINOIS INSTITUTE OF TECHNOLOGY**
 
-**CS 429 INFORMATION RETRIEVAL**
+**Advanced Semantic Search System**
 
-Advanced Semantic Search System By
 
-Karishma Begum Majeethalikhan
 
-UNDER THE GUIDANCE OF
-
-Mr. Jawahar Panchal Professor Department of Computer Science
 
 **ABSTRACT**
 
